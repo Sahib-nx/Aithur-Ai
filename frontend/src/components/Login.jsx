@@ -4,6 +4,7 @@ import { Eye, EyeOff, Lock, Mail, X, CheckCircle, AlertCircle, Loader2, Sparkles
 import { axiosInstance } from '../../utils/axiosIntance';
 import { data, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthProvider';
+import { Link } from 'react-router-dom';
 
 
 const LoginModal = () => {
@@ -331,9 +332,7 @@ const LoginModal = () => {
                       transition={{ delay: 0.8 }}
                     >
                       Don't have an account?{' '}
-                      <a href="#" className="text-cyan-400 hover:text-cyan-300 transition-colors duration-200">
-                        Sign up
-                      </a>
+                      <Link to='/register' className="text-cyan-400 hover:text-cyan-300 transition-colors duration-200">Sign up</Link>
                     </motion.p>
                   </div>
                 </div>

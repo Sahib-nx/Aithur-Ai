@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthProvider';
 import 'react-toastify/dist/ReactToastify.css';
 import { toast } from 'react-toastify';
+import { Link } from 'react-router-dom';
 
 
 const RegisterModal = () => {
@@ -352,9 +353,7 @@ const RegisterModal = () => {
                       transition={{ delay: 0.8 }}
                     >
                       Already have an account?{' '}
-                      <a href="#" className="text-cyan-400 hover:text-cyan-300 transition-colors duration-200">
-                        Sign in
-                      </a>
+                      <Link to= "/login" className="text-cyan-400 hover:text-cyan-300 transition-colors duration-200">Sign in</Link>
                     </motion.p>
                   </div>
                 </div>
