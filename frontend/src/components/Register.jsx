@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Eye, EyeOff, Lock, Mail, X, CheckCircle, AlertCircle, Loader2, Sparkles, User, Shield } from 'lucide-react';
-import axios from 'axios';
 import { axiosInstance } from '../../utils/axiosIntance';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthProvider';
+import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify';
 
 
 const RegisterModal = () => {
@@ -17,6 +19,7 @@ const RegisterModal = () => {
   const [message, setMessage] = useState({ type: '', text: '' });
   const [showMessage, setShowMessage] = useState(false);
 
+  const [, setAuthUser] = useAuth();
   // Handle input changes
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -43,7 +46,12 @@ const RegisterModal = () => {
       if (response.status === 201) {
         setMessage({ type: 'success', text: response.data.message });
         setShowMessage(true);
+        localStorage.setItem("user", JSON.stringify(response.data.payload));
+        localStorage.setItem("localStrToken", response.data.localStrToken);
+        setAuthUser(response.data.localStrToken)
         navigate("/")
+        toast.success(response.data.message);
+        
       }
 
     } catch (error) {

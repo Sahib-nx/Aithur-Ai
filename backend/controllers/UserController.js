@@ -46,17 +46,17 @@ export const register = async (req, res) => {
             const userId = newUser._id
 
             const token = jwt.sign({ userId }, secretkey, {
-                expiresIn: "1h"
+                expiresIn: "180d"
             })
 
-            const expires = new Date(Date.now() + 48 * 60 * 60 * 1000).toUTCString();
+            const expires = new Date(Date.now() + 180 * 24 * 60 * 60 * 1000).toUTCString();
 
             res.setHeader(
                 "Set-Cookie",
                 `token=${token}; HttpOnly; Path=/; SameSite=Strict; Expires=${expires}`
             );
 
-            return res.status(201).json({ message: "User Cretaed Successfully" });
+            return messageHandler(res, 201, "User Cretaed Successfully", newUser, token )
 
         } else {
 
@@ -107,11 +107,12 @@ export const login = async (req, res) => {
 
             const userId = user._id;
 
-            const token = jwt.sign({ userId }, secretkey, {
-                expiresIn: "1h"
-            });
 
-            const expires = new Date(Date.now() + 48 * 60 * 60 * 1000).toUTCString();
+            const token = jwt.sign({ userId }, secretkey, {
+                expiresIn: "180d"
+            })
+
+            const expires = new Date(Date.now() + 180 * 24 * 60 * 60 * 1000).toUTCString();
             res.setHeader(
                 "Set-Cookie",
                 `token=${token}; HttpOnly; Path=/; SameSite=Strict; Expires=${expires}`

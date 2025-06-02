@@ -1,6 +1,6 @@
 import axios from 'axios'
 
 export const axiosInstance  = axios.create({
-    baseURL: 'http://localhost:4004/api/v1',
+    baseURL: 'https://aithur-ai.onrender.com/api/v1',
     withCredentials: true
 });

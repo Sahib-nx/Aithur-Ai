@@ -4,7 +4,7 @@ import user from "../../public/user.png"
 import { useAuth } from '../context/AuthProvider'
 import { useNavigate } from 'react-router-dom'
 import 'react-toastify/dist/ReactToastify.css';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { axiosInstance } from '../../utils/axiosIntance'
 import { ChatManager } from '../../utils/chatManager'
 
@@ -36,13 +36,13 @@ const Sidebar = ({ isOpen, toggleSidebar, onChatSelect, onNewChat, refreshHistor
             console.log(response.data)
             localStorage.removeItem("user");
             localStorage.removeItem("localStrToken");
-            
-            // Clear chat data on logout
+
+            // // Clear chat data on logout
             localStorage.removeItem(ChatManager.STORAGE_KEY);
             localStorage.removeItem(ChatManager.CURRENT_CHAT_KEY);
-            
+
             setAuthUser(null);
-            navigate("/login");
+            navigate("/login")
             toast.success(response.data.message);
         } catch (error) {
             console.error(error);
@@ -72,16 +72,16 @@ const Sidebar = ({ isOpen, toggleSidebar, onChatSelect, onNewChat, refreshHistor
 
     const confirmDelete = (chatId) => {
         ChatManager.deleteChat(chatId);
-        
+
         // If deleted chat was current, create new one and update state
         const newCurrentId = ChatManager.getCurrentChatId();
         setCurrentChatId(newCurrentId);
-        
+
         // Notify parent components
         onNewChat?.(newCurrentId);
         loadChatHistory();
         setDeleteConfirm(null);
-        
+
         toast.success("Chat deleted successfully");
     }
 
@@ -103,7 +103,7 @@ const Sidebar = ({ isOpen, toggleSidebar, onChatSelect, onNewChat, refreshHistor
 
             {/* Overlay for mobile */}
             {isOpen && (
-                <div 
+                <div
                     className="lg:hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-40"
                     onClick={toggleSidebar}
                 />
@@ -138,7 +138,7 @@ const Sidebar = ({ isOpen, toggleSidebar, onChatSelect, onNewChat, refreshHistor
                                 Aithur
                             </div>
                         </div>
-                        
+
                         {/* Close button for mobile */}
                         <button
                             onClick={toggleSidebar}
@@ -175,7 +175,7 @@ const Sidebar = ({ isOpen, toggleSidebar, onChatSelect, onNewChat, refreshHistor
                             <Clock className="w-4 h-4" />
                             <span>Recent Conversations</span>
                         </div>
-                        
+
                         {chatHistory.length === 0 ? (
                             <div className="text-center py-12">
                                 <div className="w-20 h-20 mx-auto mb-4 bg-gradient-to-br from-gray-700 to-gray-800 rounded-full flex items-center justify-center">
@@ -191,8 +191,8 @@ const Sidebar = ({ isOpen, toggleSidebar, onChatSelect, onNewChat, refreshHistor
                                         key={chat.id}
                                         className={`
                                             group relative p-3 rounded-xl cursor-pointer transition-all duration-200 border
-                                            ${currentChatId === chat.id 
-                                                ? 'bg-gradient-to-r from-purple-600/20 to-blue-600/20 border-purple-500/30' 
+                                            ${currentChatId === chat.id
+                                                ? 'bg-gradient-to-r from-purple-600/20 to-blue-600/20 border-purple-500/30'
                                                 : 'hover:bg-white/5 border-transparent hover:border-purple-500/20'
                                             }
                                         `}
@@ -210,7 +210,7 @@ const Sidebar = ({ isOpen, toggleSidebar, onChatSelect, onNewChat, refreshHistor
                                                     {chat.timestamp}
                                                 </p>
                                             </div>
-                                            
+
                                             {/* Delete Button */}
                                             <button
                                                 onClick={(e) => handleDeleteChat(chat.id, e)}
@@ -220,7 +220,7 @@ const Sidebar = ({ isOpen, toggleSidebar, onChatSelect, onNewChat, refreshHistor
                                                 <Trash2 className="w-4 h-4 text-gray-400 hover:text-red-400" />
                                             </button>
                                         </div>
-                                        
+
                                         {/* Current chat indicator */}
                                         {currentChatId === chat.id && (
                                             <div className="absolute left-0 top-1/2 transform -translate-y-1/2 w-1 h-8 bg-gradient-to-b from-cyan-400 to-purple-500 rounded-r-full" />
@@ -232,43 +232,43 @@ const Sidebar = ({ isOpen, toggleSidebar, onChatSelect, onNewChat, refreshHistor
                     </div>
                 </div>
 
-                {/* User Profile & Logout */}
-                <div className="relative z-10 p-4 border-t border-white/10">
-                    <div className="flex items-center gap-3 p-3 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10">
-                        <div className="w-10 h-10 rounded-full overflow-hidden bg-gradient-to-br from-cyan-400 to-purple-500 flex items-center justify-center">
-                            {userData?.profilePicture ? (
-                                <img 
-                                    src={userData.profilePicture} 
-                                    alt="Profile" 
-                                    className="w-full h-full object-cover"
-                                />
-                            ) : (
-                                <img 
-                                    src={user} 
-                                    alt="Default User" 
-                                    className="w-6 h-6"
-                                />
-                            )}
-                        </div>
-                        <div className="flex-1 min-w-0">
-                            <p className="text-white text-sm font-medium truncate">
-                                {userData?.username || userData?.email || 'User'}
-                            </p>
-                            <p className="text-gray-400 text-xs truncate">
-                                {userData?.email}
-                            </p>
-                        </div>
-                        <button
-                            onClick={handleLogout}
-                            onMouseEnter={() => setHoveredItem('logout')}
-                            onMouseLeave={() => setHoveredItem(null)}
-                            className="p-2 rounded-lg hover:bg-red-500/20 transition-colors group"
-                            title="Logout"
-                        >
-                            <LogOut className="w-5 h-5 text-gray-400 group-hover:text-red-400 transition-colors" />
-                        </button>
+            {/* User Profile & Logout */}
+            <div className="relative z-10 p-4 border-t border-white/10">
+                <div className="flex items-center gap-3 p-3 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10">
+                    <div className="w-10 h-10 rounded-full overflow-hidden bg-gradient-to-br from-cyan-400 to-purple-500 flex items-center justify-center">
+                        {userData?.profilePicture ? (
+                            <img
+                                src={userData.profilePicture}
+                                alt="Profile"
+                                className="w-full h-full object-cover"
+                            />
+                        ) : (
+                            <img
+                                src={user}
+                                alt="Default User"
+                                className="w-6 h-6"
+                            />
+                        )}
                     </div>
+                    <div className="flex-1 min-w-0">
+                        <p className="text-white text-sm font-medium truncate">
+                            {userData?.username || userData?.email || 'User'}
+                        </p>
+                        <p className="text-gray-400 text-xs truncate">
+                            {userData?.email}
+                        </p>
+                    </div>
+                    <button
+                        onClick={handleLogout}
+                        onMouseEnter={() => setHoveredItem('logout')}
+                        onMouseLeave={() => setHoveredItem(null)}
+                        className="p-2 rounded-lg hover:bg-red-500/20 transition-colors group"
+                        title="Logout"
+                    >
+                        <LogOut className="w-5 h-5 text-gray-400 group-hover:text-red-400 transition-colors" />
+                    </button>
                 </div>
+            </div>
 
                 {/* Custom Scrollbar Styles */}
                 <style jsx>{`
@@ -320,18 +320,6 @@ const Sidebar = ({ isOpen, toggleSidebar, onChatSelect, onNewChat, refreshHistor
                 </div>
             )}
 
-            <ToastContainer 
-                position="top-right"
-                autoClose={3000}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-                theme="dark"
-            />
         </>
     )
 }
