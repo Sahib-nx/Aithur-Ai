@@ -91,13 +91,17 @@ const Sidebar = ({ isOpen, toggleSidebar, onChatSelect, onNewChat, refreshHistor
 
     return (
         <>
-            {/* Mobile Menu Button - Only show when sidebar is closed */}
+            {/* Enhanced Mobile Menu Button - Blends with prompt background */}
             {!isOpen && (
                 <button
                     onClick={toggleSidebar}
-                    className="lg:hidden fixed top-4 left-4 z-50 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-500 hover:to-blue-500 p-3 rounded-xl shadow-lg transition-all duration-300 transform hover:scale-105"
+                    className="lg:hidden fixed top-4 left-4 z-50 bg-white/5 backdrop-blur-xl border border-white/10 hover:border-white/20 p-3 rounded-xl shadow-lg transition-all duration-300 transform hover:scale-105 hover:bg-white/10"
+                    style={{
+                        background: 'rgba(15, 23, 42, 0.6)',
+                        backdropFilter: 'blur(20px)',
+                    }}
                 >
-                    <Menu className="text-white w-6 h-6" />
+                    <Menu className="text-gray-300 hover:text-white w-6 h-6 transition-colors duration-200" />
                 </button>
             )}
 
@@ -139,12 +143,12 @@ const Sidebar = ({ isOpen, toggleSidebar, onChatSelect, onNewChat, refreshHistor
                             </div>
                         </div>
 
-                        {/* Close button for mobile */}
+                        {/* Enhanced Close button for mobile - matches menu button style */}
                         <button
                             onClick={toggleSidebar}
-                            className="lg:hidden p-2 rounded-lg hover:bg-white/10 transition-colors"
+                            className="lg:hidden p-2 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 transition-all duration-200 group"
                         >
-                            <X className="text-gray-400 w-5 h-5" />
+                            <X className="text-gray-400 group-hover:text-white w-5 h-5 transition-colors duration-200" />
                         </button>
                     </div>
 
@@ -199,7 +203,7 @@ const Sidebar = ({ isOpen, toggleSidebar, onChatSelect, onNewChat, refreshHistor
                                         onClick={() => handleChatSelect(chat.id)}
                                     >
                                         <div className="flex items-start justify-between">
-                                            <div className="flex-1 min-w-0">
+                                            <div className="flex-1 min-w-0 pr-2">
                                                 <h3 className={`
                                                     text-sm font-medium truncate
                                                     ${currentChatId === chat.id ? 'text-white' : 'text-gray-300 group-hover:text-white'}
@@ -211,13 +215,13 @@ const Sidebar = ({ isOpen, toggleSidebar, onChatSelect, onNewChat, refreshHistor
                                                 </p>
                                             </div>
 
-                                            {/* Delete Button */}
+                                            {/* Enhanced Delete Button - Better mobile visibility */}
                                             <button
                                                 onClick={(e) => handleDeleteChat(chat.id, e)}
-                                                className="opacity-0 group-hover:opacity-100 p-1 rounded hover:bg-red-500/20 transition-all duration-200 ml-2"
+                                                className="opacity-70 lg:opacity-0 group-hover:opacity-100 p-2 rounded-lg hover:bg-red-500/20 transition-all duration-200 flex-shrink-0 bg-white/5 lg:bg-transparent border border-white/10 lg:border-transparent hover:border-red-500/30"
                                                 title="Delete chat"
                                             >
-                                                <Trash2 className="w-4 h-4 text-gray-400 hover:text-red-400" />
+                                                <Trash2 className="w-4 h-4 text-gray-400 hover:text-red-400 transition-colors duration-200" />
                                             </button>
                                         </div>
 
@@ -232,43 +236,43 @@ const Sidebar = ({ isOpen, toggleSidebar, onChatSelect, onNewChat, refreshHistor
                     </div>
                 </div>
 
-            {/* User Profile & Logout */}
-            <div className="relative z-10 p-4 border-t border-white/10">
-                <div className="flex items-center gap-3 p-3 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10">
-                    <div className="w-10 h-10 rounded-full overflow-hidden bg-gradient-to-br from-cyan-400 to-purple-500 flex items-center justify-center">
-                        {userData?.profilePicture ? (
-                            <img
-                                src={userData.profilePicture}
-                                alt="Profile"
-                                className="w-full h-full object-cover"
-                            />
-                        ) : (
-                            <img
-                                src={user}
-                                alt="Default User"
-                                className="w-6 h-6"
-                            />
-                        )}
+                {/* User Profile & Logout */}
+                <div className="relative z-10 p-4 border-t border-white/10">
+                    <div className="flex items-center gap-3 p-3 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10">
+                        <div className="w-10 h-10 rounded-full overflow-hidden bg-gradient-to-br from-cyan-400 to-purple-500 flex items-center justify-center">
+                            {userData?.profilePicture ? (
+                                <img
+                                    src={userData.profilePicture}
+                                    alt="Profile"
+                                    className="w-full h-full object-cover"
+                                />
+                            ) : (
+                                <img
+                                    src={user}
+                                    alt="Default User"
+                                    className="w-6 h-6"
+                                />
+                            )}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                            <p className="text-white text-sm font-medium truncate">
+                                {userData?.username || userData?.email || 'User'}
+                            </p>
+                            <p className="text-gray-400 text-xs truncate">
+                                {userData?.email}
+                            </p>
+                        </div>
+                        <button
+                            onClick={handleLogout}
+                            onMouseEnter={() => setHoveredItem('logout')}
+                            onMouseLeave={() => setHoveredItem(null)}
+                            className="p-2 rounded-lg hover:bg-red-500/20 transition-colors group"
+                            title="Logout"
+                        >
+                            <LogOut className="w-5 h-5 text-gray-400 group-hover:text-red-400 transition-colors" />
+                        </button>
                     </div>
-                    <div className="flex-1 min-w-0">
-                        <p className="text-white text-sm font-medium truncate">
-                            {userData?.username || userData?.email || 'User'}
-                        </p>
-                        <p className="text-gray-400 text-xs truncate">
-                            {userData?.email}
-                        </p>
-                    </div>
-                    <button
-                        onClick={handleLogout}
-                        onMouseEnter={() => setHoveredItem('logout')}
-                        onMouseLeave={() => setHoveredItem(null)}
-                        className="p-2 rounded-lg hover:bg-red-500/20 transition-colors group"
-                        title="Logout"
-                    >
-                        <LogOut className="w-5 h-5 text-gray-400 group-hover:text-red-400 transition-colors" />
-                    </button>
                 </div>
-            </div>
 
                 {/* Custom Scrollbar Styles */}
                 <style jsx>{`
